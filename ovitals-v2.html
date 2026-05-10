@@ -438,6 +438,8 @@
       justify-content: space-between;
       /* nav top, body fills rest – no giant gap */
       padding-bottom: 0;
+      /* Prevent horizontal overflow from wordmark/phones on any viewport */
+      max-width: 100vw;
     }
 
     /* Giant background wordmark */
@@ -511,7 +513,6 @@
       flex: 1;
       /* grow to fill remaining hero height */
       min-height: 0;
-      /* no forced full-viewport gap        */
       padding: 0 56px 0;
     }
 
@@ -1393,7 +1394,7 @@
 
     .impact-band {
       background: var(--blue);
-      padding: clamp(48px, 8vw, 96px) 48px
+      padding: clamp(48px, 8vw, 96px) clamp(20px, 4vw, 48px)
     }
 
     .impact-inner {
@@ -1467,10 +1468,28 @@
     /* RESPONSIVE */
     /* ── Tablet: stack columns, switch phone fan to flex ──────────────── */
     @media(max-width:1024px) {
+
+      /* Kill the space-between gap: at 1-column the nav and body are the only
+         flex children, so space-between would push body to the very bottom.
+         Switch to flex-start so content flows naturally top-to-bottom. */
+      .hero {
+        justify-content: flex-start;
+        min-height: auto;
+      }
+
       .hero-body {
         grid-template-columns: 1fr;
         min-height: auto;
+        /* stop the body from stretching to fill hero's flex space */
+        flex: none;
+        /* stop text from being pushed to the bottom of its grid area */
+        align-items: start;
+        padding: 0 40px 0;
         padding-bottom: 0;
+      }
+
+      .hero-nav {
+        padding: 28px 40px
       }
 
       .hero-text {
@@ -1542,16 +1561,27 @@
         left: auto;
       }
 
-      /* Chip positions relative to the phones container */
+      /* Chip positions relative to the phones container.
+         Must reset the opposing edge from base CSS or the chip
+         will stretch between both anchors. */
       .chip-1 {
         top: 18%;
         left: 4%;
+        right: auto;
+        /* cancel base right:4% — was stretching chip horizontally */
+        bottom: auto;
       }
 
       .chip-3 {
         top: 18%;
         right: 4%;
         left: auto;
+        bottom: auto;
+        /* cancel base bottom:30% — was stretching chip vertically */
+      }
+
+      .tl-item {
+        gap: 28px
       }
     }
 
@@ -1565,7 +1595,9 @@
         grid-template-columns: repeat(2, 1fr)
       }
 
-      .stat-cell:nth-child(2) {
+      /* In a 2-col grid, cells 2 & 4 are on the right edge — remove their border */
+      .stat-cell:nth-child(2),
+      .stat-cell:nth-child(4) {
         border-right: none
       }
 
@@ -1587,7 +1619,12 @@
       }
 
       .impact-inner {
-        flex-direction: column
+        flex-direction: column;
+        align-items: flex-start
+      }
+
+      .impact-title {
+        max-width: 100%
       }
 
       .impact-metrics {
@@ -1610,7 +1647,12 @@
 
       .video-inner {
         grid-template-columns: 1fr;
-        text-align: center
+        text-align: center;
+        padding: 0 28px
+      }
+
+      .video-bullets {
+        text-align: left
       }
 
       .video-frame-wrap {
@@ -1658,7 +1700,7 @@
       }
 
       .hero-nav {
-        padding: 28px 20px
+        padding: 24px 20px
       }
 
       .hero-body {
@@ -1669,16 +1711,36 @@
         grid-template-columns: repeat(2, 1fr)
       }
 
+      /* In a 2-col grid, right-edge cells */
+      .stat-cell:nth-child(2),
+      .stat-cell:nth-child(4) {
+        border-right: none
+      }
+
       .features-grid {
         grid-template-columns: 1fr
       }
 
       .impact-metrics {
-        grid-template-columns: 1fr
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .impact-title {
+        font-size: clamp(26px, 7vw, 40px)
       }
 
       .tl-item {
         gap: 18px
+      }
+
+      /* Showcase: compact phone frame on mobile */
+      .showcase-phone-wrap {
+        width: 220px
+      }
+
+      /* Video inner already stacked at 900px — just keep padding tight */
+      .video-inner {
+        padding: 0 20px
       }
 
       /* Two-phone fan on mobile */
@@ -1736,6 +1798,14 @@
 
       .hero-h1 {
         font-size: clamp(36px, 9vw, 52px);
+      }
+
+      .impact-metrics {
+        grid-template-columns: 1fr
+      }
+
+      .stat-cell {
+        padding: clamp(20px, 4vw, 40px) 16px
       }
     }
 

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alex Olagunju — Flutter Developer Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#0a0c0f;
+  --bg2:#10141a;
+  --bg3:#161c26;
+  --accent:#1A56DB;
+  --accent2:#00c896;
+  --white:#f0f4ff;
+  --muted:#6b7c99;
+  --border:rgba(255,255,255,0.07);
+  --font-display:'Syne',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--white);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:.4;
+}
+
+/* ── NAV ── */
+nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:28px 60px;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:10;
+  background:rgba(10,12,15,0.85);
+  backdrop-filter:blur(12px);
+}
+.nav-logo{
+  font-family:var(--font-display);font-weight:900;font-size:17px;
+  letter-spacing:-0.5px;
+}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:32px;align-items:center;}
+.nav-links a{
+  font-size:13px;color:var(--muted);text-decoration:none;
+  transition:color .2s;font-weight:500;
+}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{
+  font-size:13px;padding:8px 20px;border-radius:8px;
+  background:var(--accent);color:#fff;text-decoration:none;
+  font-weight:600;transition:opacity .2s;
+}
+.nav-cta:hover{opacity:.85;}
+
+/* ── HERO ── */
+.hero{
+  padding:120px 60px 100px;
+  position:relative;overflow:hidden;
+}
+.hero-glow{
+  position:absolute;top:-200px;left:-100px;
+  width:800px;height:800px;
+  background:radial-gradient(circle, rgba(26,86,219,0.12) 0%, transparent 65%);
+  pointer-events:none;
+}
+.hero-glow2{
+  position:absolute;top:-100px;right:-150px;
+  width:600px;height:600px;
+  background:radial-gradient(circle, rgba(0,200,150,0.07) 0%, transparent 65%);
+  pointer-events:none;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:24px;
+  border:1px solid rgba(26,86,219,0.3);
+  padding:6px 16px;border-radius:100px;
+  background:rgba(26,86,219,0.08);
+}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+h1{
+  font-family:var(--font-display);
+  font-size:clamp(52px,7vw,96px);
+  font-weight:900;
+  line-height:.93;
+  letter-spacing:-3px;
+  margin-bottom:28px;
+}
+h1 .dim{color:var(--muted);}
+h1 .blue{color:var(--accent);}
+h1 .green{color:var(--accent2);}
+.hero-desc{
+  font-size:16px;font-weight:300;color:var(--muted);
+  max-width:500px;line-height:1.75;margin-bottom:48px;
+}
+.hero-stats{
+  display:flex;gap:48px;flex-wrap:wrap;
+}
+.stat-val{
+  font-family:var(--font-display);font-size:28px;font-weight:800;
+  color:var(--white);margin-bottom:4px;
+}
+.stat-val span{color:var(--accent);}
+.stat-label{font-size:12px;color:var(--muted);font-weight:400;}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:0 60px;}
+
+/* ── SECTION ── */
+section{padding:80px 60px;}
+.section-eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:14px;
+}
+.section-title{
+  font-family:var(--font-display);font-size:clamp(28px,3vw,42px);
+  font-weight:800;letter-spacing:-1px;margin-bottom:12px;
+}
+.section-sub{font-size:15px;color:var(--muted);font-weight:300;line-height:1.7;max-width:480px;margin-bottom:56px;}
+
+/* ── PROJECT CARDS ── */
+.projects-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:20px;
+}
+.project-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  text-decoration:none;
+  color:inherit;
+  display:block;
+  transition:transform .25s, border-color .25s, box-shadow .25s;
+  position:relative;
+}
+.project-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(255,255,255,0.14);
+  box-shadow:0 24px 60px rgba(0,0,0,0.4);
+}
+.card-accent-bar{height:3px;width:100%;}
+.card-body{padding:28px 28px 24px;}
+.card-eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;margin-bottom:14px;
+}
+.card-title{
+  font-family:var(--font-display);font-size:26px;font-weight:800;
+  letter-spacing:-0.5px;margin-bottom:10px;line-height:1.1;
+}
+.card-desc{
+  font-size:13px;color:var(--muted);line-height:1.65;
+  font-weight:300;margin-bottom:22px;
+}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;}
+.card-tag{
+  font-size:10px;font-weight:600;
+  padding:4px 12px;border-radius:100px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);
+  color:var(--muted);
+  letter-spacing:.04em;
+}
+.card-footer{
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--border);padding-top:18px;
+}
+.card-cta{
+  font-size:12px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;
+}
+.arrow{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .2s;
+  font-size:14px;
+}
+.project-card:hover .arrow{transform:translateX(4px);}
+
+/* SC card — dark emerald */
+.sc .card-accent-bar{background:linear-gradient(90deg,#00c896,#007a5a);}
+.sc .card-eyebrow{color:#00c896;}
+.sc .card-cta{color:#00c896;}
+.sc .arrow{background:rgba(0,200,150,0.12);color:#00c896;}
+
+/* Ovitals card — blue */
+.ov .card-accent-bar{background:linear-gradient(90deg,#3d5af1,#1A56DB);}
+.ov .card-eyebrow{color:#3d5af1;}
+.ov .card-cta{color:#3d5af1;}
+.ov .arrow{background:rgba(61,90,241,0.12);color:#3d5af1;}
+
+/* Telemedicine card — warm */
+.tm .card-accent-bar{background:linear-gradient(90deg,#f59e0b,#d97706);}
+.tm .card-eyebrow{color:#f59e0b;}
+.tm .card-cta{color:#f59e0b;}
+.tm .arrow{background:rgba(245,158,11,0.12);color:#f59e0b;}
+.tm .project-card{cursor:default;}
+.tm .project-card:hover{transform:none;box-shadow:none;}
+
+/* ── SKILLS STRIP ── */
+.skills-strip{
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:32px 60px;
+  display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+}
+.skill-chip{
+  font-size:12px;font-weight:600;padding:6px 16px;border-radius:100px;
+  background:rgba(26,86,219,0.1);color:rgba(26,86,219,0.9);
+  border:1px solid rgba(26,86,219,0.2);
+}
+
+/* ── AWARD STRIP ── */
+.award-strip{
+  background:var(--bg3);border-radius:16px;
+  padding:24px 28px;
+  display:flex;align-items:center;gap:20px;
+  border:1px solid var(--border);
+  margin-top:48px;
+}
+.award-icon{font-size:32px;flex-shrink:0;}
+.award-label{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.award-title{font-family:var(--font-display);font-size:17px;font-weight:800;letter-spacing:-.3px;}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:700px;}
+.contact-item{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;padding:22px 24px;
+}
+.contact-label{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;font-weight:600;}
+.contact-val{font-size:14px;font-weight:500;}
+.contact-val a{color:var(--accent);text-decoration:none;}
+.contact-val a:hover{text-decoration:underline;}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:28px 60px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;color:var(--muted);
+}
+.footer-logo{font-family:var(--font-display);font-weight:800;font-size:14px;color:var(--white);}
+
+/* ── ANIMATIONS ── */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease;}
+.fade-up.visible{opacity:1;transform:none;}
+
+@media(max-width:768px){
+  nav{padding:20px 24px;}
+  .hero,.divider+section,section{padding-left:24px;padding-right:24px;}
+  .divider{margin:0 24px;}
+  .skills-strip{padding:24px;}
+  h1{font-size:48px;letter-spacing:-2px;}
+  .contact-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:8px;text-align:center;}
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Alex<span>.</span></div>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="mailto:olagunjualexo@gmail.com" class="nav-cta">Hire me</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-tag">
+    <span class="hero-tag-dot"></span>
+    Available for Flutter internship
+  </div>
+  <h1>
+    Alex<br>
+    <span class="dim">Olagunju</span><br>
+    <span class="blue">Flutter</span> <span class="green">Dev</span>
+  </h1>
+  <p class="hero-desc">
+    Building cross-platform mobile applications that ship. 2+ years with Flutter, Supabase, and Firebase — from wireframe to production.
+  </p>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-val">2<span>+</span></div>
+      <div class="stat-label">Years Flutter experience</div>
+    </div>
+    <div>
+      <div class="stat-val">3.93<span>/5</span></div>
+      <div class="stat-label">GPA · OAU Engineering</div>
+    </div>
+    <div>
+      <div class="stat-val">1<span>st</span></div>
+      <div class="stat-label">Global Mobile Dev Competition 2023</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SKILLS STRIP -->
+<div class="skills-strip" id="skills">
+  <span style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-right:8px;">Stack</span>
+  <span class="skill-chip">Flutter / Dart</span>
+  <span class="skill-chip">FlutterFlow</span>
+  <span class="skill-chip">Supabase</span>
+  <span class="skill-chip">Firebase</span>
+  <span class="skill-chip">REST APIs</span>
+  <span class="skill-chip">Real-time data</span>
+  <span class="skill-chip">Embedded / IoT</span>
+  <span class="skill-chip">Git</span>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-eyebrow">Work</p>
+  <h2 class="section-title">Case Studies</h2>
+  <p class="section-sub">Selected projects — click to read the full case study.</p>
+
+  <div class="projects-grid">
+
+    <!-- ServiceConnect -->
+    <div class="sc">
+      <a class="project-card" href="serviceconnect-case-study-v2.html" target="_blank">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <p class="card-eyebrow">Service Marketplace · Flutter</p>
+          <h3 class="card-title">ServiceConnect</h3>
+          <p class="card-desc">A premium dual-sided marketplace bridging elite service professionals with customers — powered by AI, real-time data, and seamless payments.</p>
+          <div class="card-tags">
+            <span class="card-tag">Flutter</span>
+            <span class="card-tag">Supabase</span>
+            <span class="card-tag">Real-time</span>
+            <span class="card-tag">Payments</span>
+            <span class="card-tag">AI</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-cta">View case study <span class="arrow">→</span></span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Ovitals -->
+    <div class="ov">
+      <a class="project-card" href="ovitals-v2.html" target="_blank">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <p class="card-eyebrow">Health Tech · Flutter</p>
+          <h3 class="card-title">Ovitals</h3>
+          <p class="card-desc">A premium dual-sided health platform transforming raw vitals into living intelligence — for patients and clinicians.</p>
+          <div class="card-tags">
+            <span class="card-tag">Flutter</span>
+            <span class="card-tag">Health-tech</span>
+            <span class="card-tag">Data viz</span>
+            <span class="card-tag">Firebase</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-cta">View case study <span class="arrow">→</span></span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Telemedicine (thesis) -->
+    <div class="tm">
+      <div class="project-card" style="border-style:dashed;border-color:rgba(245,158,11,0.2);">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <p class="card-eyebrow">Thesis Project · Patent-pending</p>
+          <h3 class="card-title">Telemedicine Platform</h3>
+          <p class="card-desc">Embedded sensor hardware bridged to a Flutter mobile frontend with real-time Supabase backend. Final-year thesis at Obafemi Awolowo University.</p>
+          <div class="card-tags">
+            <span class="card-tag">Flutter</span>
+            <span class="card-tag">IoT / Embedded</span>
+            <span class="card-tag">Supabase</span>
+            <span class="card-tag">Patent-pending</span>
+          </div>
+          <div class="card-footer">
+            <span style="font-size:12px;color:var(--muted);font-weight:500;">Case study coming soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Award -->
+  <div class="award-strip">
+    <div class="award-icon">🏆</div>
+    <div>
+      <p class="award-label">Achievement</p>
+      <p class="award-title">1st Place — Global Mobile Development Competition, 2023</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-eyebrow">Contact</p>
+  <h2 class="section-title">Get in touch</h2>
+  <p class="section-sub" style="margin-bottom:32px;">Open to Flutter internship opportunities. Remote-ready, Nigeria-based.</p>
+  <div class="contact-grid">
+    <div class="contact-item">
+      <p class="contact-label">Email</p>
+      <p class="contact-val"><a href="mailto:olagunjualexo@gmail.com">olagunjualexo@gmail.com</a></p>
+    </div>
+    <div class="contact-item">
+      <p class="contact-label">Phone</p>
+      <p class="contact-val">+234 810 094 9145</p>
+    </div>
+    <div class="contact-item">
+      <p class="contact-label">Location</p>
+      <p class="contact-val">Ibadan, Nigeria · Remote-ready</p>
+    </div>
+    <div class="contact-item">
+      <p class="contact-label">Education</p>
+      <p class="contact-val">B.Sc. EEE · OAU · Aug 2025</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">Alex Olagunju</span>
+  <span>Flutter Developer · Nigeria · 2025</span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.12});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
